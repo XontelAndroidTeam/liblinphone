@@ -1119,6 +1119,9 @@ static void search_friend_with_phone_number(void) {
 	bctbx_list_t *resultList = NULL;
 	const char *stephanie_avatar = "https://fr.wikipedia.org/wiki/St%C3%A9phanie_de_Monaco#/media/Fichier:St%C3%A9phanie_van_Monaco_(1986).jpg";
 	const char *stephanie_uri = "contact://stephanie_de_monaco";
+	const char *stephanie_video_url = "rtsp://192.168.1.123/live/8080";
+	const char *stephanie_door_url = "http://stephanie_de_monaco";
+	const char *stephanie_tone_url = "contact://stephanie_de_monaco";
 	LinphoneCoreManager* manager = linphone_core_manager_new_with_proxies_check("empty_rc", FALSE);
 	LinphoneFriendList *lfl = linphone_core_get_default_friend_list(manager->lc);
 	LinphoneFriend *stephanieFriend = linphone_core_create_friend(manager->lc);
@@ -1130,23 +1133,39 @@ static void search_friend_with_phone_number(void) {
 	_create_friends_from_tab(manager->lc, lfl, sFriends, sSizeFriend);
 
 	BC_ASSERT_FALSE(linphone_friend_get_starred(stephanieFriend));
+	BC_ASSERT_FALSE(linphone_friend_get_intercom(stephanieFriend));
 	BC_ASSERT_PTR_NULL(linphone_friend_get_photo(stephanieFriend));
 	BC_ASSERT_PTR_NULL(linphone_friend_get_native_uri(stephanieFriend));
+	BC_ASSERT_PTR_NULL(linphone_friend_get_tone_uri(stephanieFriend));
+	BC_ASSERT_PTR_NULL(linphone_friend_get_video_url(stephanieFriend));
+	BC_ASSERT_PTR_NULL(linphone_friend_get_door_url(stephanieFriend));
 	linphone_vcard_set_full_name(stephanieVcard, stephanieName); // stephanie de monaco
 	linphone_vcard_add_phone_number(stephanieVcard, stephaniePhoneNumber);
 	linphone_friend_set_vcard(stephanieFriend, stephanieVcard);
 	linphone_core_add_friend(manager->lc, stephanieFriend);
 	
 	BC_ASSERT_FALSE(linphone_friend_get_starred(stephanieFriend));
+	BC_ASSERT_FALSE(linphone_friend_get_intercom(stephanieFriend));
 	BC_ASSERT_PTR_NULL(linphone_friend_get_photo(stephanieFriend));
 	BC_ASSERT_PTR_NULL(linphone_friend_get_native_uri(stephanieFriend));
+	BC_ASSERT_PTR_NULL(linphone_friend_get_tone_uri(stephanieFriend));
+	BC_ASSERT_PTR_NULL(linphone_friend_get_video_url(stephanieFriend));
+	BC_ASSERT_PTR_NULL(linphone_friend_get_door_url(stephanieFriend));
 
 	linphone_friend_set_starred(stephanieFriend, TRUE);
+	linphone_friend_set_intercom(stephanieFriend, TRUE);
 	linphone_friend_set_photo(stephanieFriend, stephanie_avatar);
 	linphone_friend_set_native_uri(stephanieFriend, stephanie_uri);
+	linphone_friend_set_tone_uri(stephanieFriend, stephanie_tone_url);
+	linphone_friend_set_video_url(stephanieFriend, stephanie_video_url);
+	linphone_friend_set_door_uri(stephanieFriend, stephanie_door_url);
 
 	BC_ASSERT_TRUE(linphone_friend_get_starred(stephanieFriend));
+	BC_ASSERT_TRUE(linphone_friend_get_intercom(stephanieFriend));
 	BC_ASSERT_STRING_EQUAL(linphone_friend_get_native_uri(stephanieFriend), stephanie_uri);
+	BC_ASSERT_STRING_EQUAL(linphone_friend_get_tone_uri(stephanieFriend), stephanie_tone_url);
+	BC_ASSERT_STRING_EQUAL(linphone_friend_get_video_url(stephanieFriend), stephanie_video_url);
+	BC_ASSERT_STRING_EQUAL(linphone_friend_get_door_uri(stephanieFriend), stephanie_door_url);
 #ifdef VCARD_ENABLED
 	BC_ASSERT_STRING_EQUAL(linphone_friend_get_photo(stephanieFriend), stephanie_avatar);
 #else

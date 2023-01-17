@@ -220,6 +220,10 @@ LinphoneFriend * linphone_friend_new(void){
 	obj->rc_index = -1;
 	obj->is_starred = FALSE;
 	obj->native_uri = NULL;
+	obj->is_intercom = FALSE;
+	obj->video_url = NULL;
+	obj->door_url = NULL;
+	obj->tone_uri = NULL;
 	return obj;
 }
 
@@ -696,6 +700,9 @@ static void _linphone_friend_destroy(LinphoneFriend *lf){
 	if (lf->vcard != NULL) linphone_vcard_unref(lf->vcard);
 	if (lf->refkey != NULL) ms_free(lf->refkey);
 	if (lf->native_uri != NULL) ms_free(lf->native_uri);
+	if (lf->video_url != NULL) ms_free(lf->video_url);
+	if (lf->door_url != NULL) ms_free(lf->door_url);
+	if (lf->tone_uri != NULL) ms_free(lf->tone_uri);
 }
 
 static belle_sip_error_code _linphone_friend_marshall(belle_sip_object_t *obj, char* buff, size_t buff_size, size_t *offset) {
@@ -2092,6 +2099,17 @@ bool_t linphone_friend_get_starred(const LinphoneFriend *lf) {
 	return lf->is_starred;
 }
 
+void linphone_friend_set_intercom(LinphoneFriend *lf, bool_t is_intercom) {
+	if (lf) lf->is_intercom = is_intercom;
+}
+
+bool_t linphone_friend_get_intercom(const LinphoneFriend *lf) {
+	if (!lf) return FALSE;
+	return lf->is_intercom;
+}
+
+
+
 void linphone_friend_set_native_uri(LinphoneFriend *lf, const char *native_uri) {
 	if (!lf) return;
 	if (lf->native_uri) {
@@ -2106,6 +2124,54 @@ void linphone_friend_set_native_uri(LinphoneFriend *lf, const char *native_uri) 
 const char * linphone_friend_get_native_uri(const LinphoneFriend *lf) {
 	if (!lf) return NULL;
 	return lf->native_uri;
+}
+
+void linphone_friend_set_video_url(LinphoneFriend *lf, const char *video_url) {
+	if (!lf) return;
+	if (lf->video_url) {
+		ms_free(lf->video_url);
+		lf->video_url = NULL;
+	}
+	if (video_url) {
+		lf->video_url = ms_strdup(video_url);
+	}
+}
+
+const char * linphone_friend_get_video_url(const LinphoneFriend *lf) {
+	if (!lf) return NULL;
+	return lf->video_url;
+}
+
+void linphone_friend_set_door_url(LinphoneFriend *lf, const char *door_url) {
+	if (!lf) return;
+	if (lf->door_url) {
+		ms_free(lf->door_url);
+		lf->door_url = NULL;
+	}
+	if (door_url) {
+		lf->door_url = ms_strdup(door_url);
+	}
+}
+
+const char * linphone_friend_get_door_url(const LinphoneFriend *lf) {
+	if (!lf) return NULL;
+	return lf->door_url;
+}
+
+void linphone_friend_set_tone_uri(LinphoneFriend *lf, const char *tone_uri) {
+	if (!lf) return;
+	if (lf->tone_uri) {
+		ms_free(lf->tone_uri);
+		lf->tone_uri = NULL;
+	}
+	if (tone_uri) {
+		lf->tone_uri = ms_strdup(tone_uri);
+	}
+}
+
+const char * linphone_friend_get_tone_uri(const LinphoneFriend *lf) {
+	if (!lf) return NULL;
+	return lf->tone_uri;
 }
 
 void linphone_friend_set_organization(LinphoneFriend *lf, const char *organization) {

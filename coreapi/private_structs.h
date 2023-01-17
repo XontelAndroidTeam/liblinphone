@@ -93,6 +93,10 @@ struct _LinphoneFriend{
 	int rc_index;
 	bool_t is_starred;
 	char *native_uri;
+	bool_t is_intercom;
+	char *video_url;
+	char *door_url;
+	char *tone_uri;
 };
 
 BELLE_SIP_DECLARE_VPTR_NO_EXPORT(LinphoneFriend);

@@ -23,6 +23,7 @@
 #include <ctype.h>
 
 static LinphoneAccountCreator * init(LinphoneCore *lc) {
+
 	LinphoneAccountCreatorService *service = linphone_account_creator_service_new();
 	linphone_account_creator_service_set_constructor_cb(service, NULL);
 	linphone_account_creator_service_set_destructor_cb(service, NULL);

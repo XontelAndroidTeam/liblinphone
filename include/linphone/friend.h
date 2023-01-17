@@ -406,6 +406,21 @@ LINPHONE_PUBLIC void linphone_friend_set_starred(LinphoneFriend *linphone_friend
 LINPHONE_PUBLIC bool_t linphone_friend_get_starred(const LinphoneFriend *linphone_friend);
 
 /**
+ * Sets if the friend is related to an intercom.
+ * @param linphone_friend the #LinphoneFriend object.
+ * @param is_intercom TRUE if the friend is related to an intercom, FALSE otherwise.
+ */
+LINPHONE_PUBLIC void linphone_friend_set_intercom(LinphoneFriend *linphone_friend, bool_t is_intercom);
+
+/**
+ * Gets if the friend is related to an intercom.
+ * @param linphone_friend the #LinphoneFriend object.
+ * @return TRUE if the contact is intercom, FALSE otherwise.
+ */
+LINPHONE_PUBLIC bool_t linphone_friend_get_intercom(const LinphoneFriend *linphone_friend);
+
+
+/**
  * Sets the contact's native URI.
  * @param linphone_friend the #LinphoneFriend object.
  * @param native_uri the URI that matches the contact on the native system. @maybenil
@@ -418,6 +433,51 @@ LINPHONE_PUBLIC void linphone_friend_set_native_uri(LinphoneFriend *linphone_fri
  * @return the native URI set if any, NULL otherwise. @maybenil
  */
 LINPHONE_PUBLIC const char * linphone_friend_get_native_uri(const LinphoneFriend *linphone_friend);
+
+/**
+ * Sets the contact's tone URI
+ * @param linphone_friend the #LinphoneFriend object.
+ * @param tone_uri the URI of the ringtone of the contact on the native system. @maybenil
+ */
+LINPHONE_PUBLIC void linphone_friend_set_tone_uri(LinphoneFriend *linphone_friend, const char *tone_uri);
+
+/**
+ * Gets the contact's tone URI
+ * @param linphone_friend the #LinphoneFriend object.
+ * @return the tone URI set if any, NULL otherwise. @maybenil
+ */
+LINPHONE_PUBLIC const char * linphone_friend_get_tone_uri(const LinphoneFriend *linphone_friend);
+
+/**
+ * Sets the contact's video URL.
+ * @param linphone_friend the #LinphoneFriend object.
+ * @param video_url the URL of the intercom live stream. @maybenil
+ */
+LINPHONE_PUBLIC void linphone_friend_set_video_url(LinphoneFriend *linphone_friend, const char *video_url);
+
+/**
+ * Gets the contact's video URL
+ * @param linphone_friend the #LinphoneFriend object.
+ * @return the video URL of the intercom live stream, NULL otherwise. @maybenil
+ */
+LINPHONE_PUBLIC const char * linphone_friend_get_video_url(const LinphoneFriend *linphone_friend);
+
+
+
+/**
+ * Sets the intercom's door URL.
+ * @param linphone_friend the #LinphoneFriend object.
+ * @param door_url the URL of the intercom door to open. @maybenil
+ */
+LINPHONE_PUBLIC void linphone_friend_set_door_url(LinphoneFriend *linphone_friend, const char *door_url);
+
+/**
+ * Gets the contact's door URL
+ * @param linphone_friend the #LinphoneFriend object.
+ * @return the door URL of the intercom door to open, NULL otherwise. @maybenil
+ */
+LINPHONE_PUBLIC const char * linphone_friend_get_door_url(const LinphoneFriend *linphone_friend);
+
 
 /**
  * Sets the contact's organization.
