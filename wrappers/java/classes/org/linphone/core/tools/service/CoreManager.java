@@ -216,6 +216,10 @@ public class CoreManager {
         return mCore;
     }
 
+    public AudioHelper getAudioHelper() {
+            return mAudioHelper;
+    }
+
     public void processPushNotification(String callId, String payload, boolean isCoreStarting) {
         if (mCore.isAutoIterateEnabled() && mCore.isInBackground()) {
             // Force the core.iterate() scheduling to a low value to ensure the Core will process what triggered the push notification as quickly as possible
@@ -267,58 +271,6 @@ public class CoreManager {
                     mAudioHelper.releaseRingingAudioFocus();
                 }
                 mAudioHelper.releaseCallAudioFocus();
-            }
-
-            @Override
-            public void onCallStateChanged(Core core, Call call, Call.State state, String message) {
-                if (mAudioHelper == null) return;
-                if (call.getState() != state) {
-                    // This can happen if a listener set earlier than this one in the app automatically accepts an incoming call for example.
-                    if (state == Call.State.IncomingReceived && call.getState() == Call.State.IncomingEarlyMedia) {
-                        Log.w("[Core Manager] It seems call was accepted with early-media during the incoming received call state changed, continuing anyway");
-                    } else {
-                        Log.w("[Core Manager] Call state changed callback state variable doesn't match current call state, skipping");
-                        return;
-                    }
-                }
-
-                if (state == Call.State.IncomingReceived && core.getCallsNb() == 1) {
-                    if (core.isNativeRingingEnabled()) {
-                        Log.i("[Core Manager] Incoming call received, no other call, start ringing");
-                        mAudioHelper.startRinging(mContext, core.getRing(), call.getRemoteAddress());
-                    } else {
-                        Log.i("[Core Manager] Incoming call received, no other call, acquire ringing audio focus");
-                        mAudioHelper.requestRingingAudioFocus();
-                    }
-                } else if (state == Call.State.IncomingEarlyMedia && core.getCallsNb() == 1) {
-                    if (core.getRingDuringIncomingEarlyMedia()) {
-                        Log.i("[Core Manager] Incoming call is early media and ringing is allowed");
-                    } else {
-                        if (core.isNativeRingingEnabled()) {
-                            Log.w("[Core Manager] Incoming call is early media and ringing is disabled, stop ringing");
-                            mAudioHelper.stopRinging();
-                        } else {
-                            Log.i("[Core Manager] Incoming call is early media and ringing is disabled, keep ringing audio focus as sound card will be using RING stream");
-                        }
-                    }
-                } else if (state == Call.State.Connected) {
-                    if (call.getDir() == Call.Dir.Incoming && core.isNativeRingingEnabled()) {
-                        Log.i("[Core Manager] Stop incoming call ringing");
-                        mAudioHelper.stopRinging();
-                    } else {
-                        Log.i("[Core Manager] Stop incoming call ringing audio focus");
-                        mAudioHelper.releaseRingingAudioFocus();
-                    }
-                } else if (state == Call.State.OutgoingInit && core.getCallsNb() == 1) {
-                    Log.i("[Core Manager] Outgoing call in progress, no other call, acquire ringing audio focus for ringback");
-                    mAudioHelper.requestRingingAudioFocus();
-                } else if (state == Call.State.StreamsRunning) {
-                    Log.i("[Core Manager] Call active, ensure audio focus granted");
-                    mAudioHelper.requestCallAudioFocus(false);
-                } else if (state == Call.State.Resuming) {
-                    Log.i("[Core Manager] Call resuming, ensure audio focus granted");
-                    mAudioHelper.requestCallAudioFocus(false);
-                }
             }
         };
         

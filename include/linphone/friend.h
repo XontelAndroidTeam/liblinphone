@@ -444,7 +444,7 @@ LINPHONE_PUBLIC void linphone_friend_set_tone_uri(LinphoneFriend *linphone_frien
 /**
  * Gets the contact's tone URI
  * @param linphone_friend the #LinphoneFriend object.
- * @return the tone URI set if any, NULL otherwise. @maybenil
+ * @return the tone URI , NULL otherwise. @maybenil
  */
 LINPHONE_PUBLIC const char * linphone_friend_get_tone_uri(const LinphoneFriend *linphone_friend);
 
