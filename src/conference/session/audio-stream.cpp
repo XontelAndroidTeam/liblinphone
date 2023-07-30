@@ -844,7 +844,6 @@ bool MS2AudioStream::startRecording(){
 		lError() << "MS2AudioStream::startRecording(): no output file specified. Use MediaSessionParams::setRecordFilePath()";
 		return false;
 	} else {
-		setRecordPath(getMediaSessionPrivate().getParams()->getRecordFilePath());
 		lInfo() << "MS2AudioStream::startRecording(): output file " << getMediaSessionPrivate().getParams()->getRecordFilePath();
 	}
 	if (getMediaSessionPrivate().getParams()->getPrivate()->getInConference()){
